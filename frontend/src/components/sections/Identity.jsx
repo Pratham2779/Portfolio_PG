@@ -17,7 +17,7 @@ const Identity = () => {
             </div>
             
             <div className="space-y-2">
-              <h2 className="text-slate-500 text-xl font-black uppercase tracking-[0.6em]">The Architect</h2>
+              <h2 className="text-slate-500 text-xl font-black uppercase tracking-[0.6em]">The Engineer</h2>
               <h1 className="text-5xl sm:text-7xl xl:text-[5rem] font-black text-white tracking-tighter leading-tight uppercase italic pb-2">
                 <Typewriter text="Prathamesh Gurav" />
               </h1>
