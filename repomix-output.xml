@@ -1,0 +1,1158 @@
+This file is a merged representation of the entire codebase, combined into a single document by Repomix.
+
+<file_summary>
+This section contains a summary of this file.
+
+<purpose>
+This file contains a packed representation of the entire repository's contents.
+It is designed to be easily consumable by AI systems for analysis, code review,
+or other automated processes.
+</purpose>
+
+<file_format>
+The content is organized as follows:
+1. This summary section
+2. Repository information
+3. Directory structure
+4. Repository files (if enabled)
+5. Multiple file entries, each consisting of:
+  - File path as an attribute
+  - Full contents of the file
+</file_format>
+
+<usage_guidelines>
+- This file should be treated as read-only. Any changes should be made to the
+  original repository files, not this packed version.
+- When processing this file, use the file path to distinguish
+  between different files in the repository.
+- Be aware that this file may contain sensitive information. Handle it with
+  the same level of security as you would the original repository.
+</usage_guidelines>
+
+<notes>
+- Some files may have been excluded based on .gitignore rules and Repomix's configuration
+- Binary files are not included in this packed representation. Please refer to the Repository Structure section for a complete list of file paths, including binary files
+- Files matching patterns in .gitignore are excluded
+- Files matching default ignore patterns are excluded
+- Files are sorted by Git change count (files with more changes are at the bottom)
+</notes>
+
+</file_summary>
+
+<directory_structure>
+backend/
+  src/
+    config/
+      email.config.js
+    controllers/
+      contact.controller.js
+    routes/
+      contact.routes.js
+    services/
+      email.service.js
+    app.js
+  package.json
+  server.js
+frontend/
+  public/
+    favicon.svg
+  src/
+    assets/
+      react.svg
+    components/
+      common/
+        Starfield.jsx
+        Typewriter.jsx
+      layout/
+        Footer.jsx
+        Navbar.jsx
+      sections/
+        Arsenal.jsx
+        Contact.jsx
+        Identity.jsx
+        Metrics.jsx
+        Projects.jsx
+    constants/
+      index.js
+    App.css
+    App.jsx
+    index.css
+    main.jsx
+  .gitignore
+  eslint.config.js
+  index.html
+  package.json
+  README.md
+  vite.config.js
+.gitignore
+README.md
+</directory_structure>
+
+<files>
+This section contains the contents of the repository's files.
+
+<file path="backend/src/config/email.config.js">
+import nodemailer from 'nodemailer';
+
+const transporter = nodemailer.createTransport({
+    service: 'gmail',
+    auth: {
+        user: process.env.EMAIL_USER,
+        pass: process.env.EMAIL_PASS
+    }
+});
+
+export { transporter };
+</file>
+
+<file path="backend/src/controllers/contact.controller.js">
+import { sendContactEmail } from '../services/email.service.js';
+
+export const handleContactSubmission = async (req, res) => {
+    const { name, email, message } = req.body;
+
+    if (!name || !email || !message) {
+        return res.status(400).json({ error: 'Identity, Address, and Payload are required.' });
+    }
+
+    try {
+        await sendContactEmail({ name, email, message });
+        res.status(200).json({ message: 'Transmission Successful.' });
+    } catch (error) {
+        console.error('Transmission Error:', error);
+        res.status(500).json({ error: 'Failed to process transmission.' });
+    }
+};
+</file>
+
+<file path="backend/src/routes/contact.routes.js">
+import express from 'express';
+import { handleContactSubmission } from '../controllers/contact.controller.js';
+
+const contactRouter = express.Router();
+
+contactRouter.post('/', handleContactSubmission);
+
+export { contactRouter };
+</file>
+
+<file path="backend/src/services/email.service.js">
+import { transporter } from '../config/email.config.js';
+
+export const sendContactEmail = async ({ name, email, message }) => {
+    const mailOptions = {
+        from: process.env.EMAIL_USER,             
+        to: 'prathamesh.official.79@gmail.com',   
+        replyTo: email,                          
+        subject: `System Message // Portfolio Contact from ${name}`,
+        text: `NEW INCOMING TRANSMISSION:\n\nIdentity: ${name}\nReturn Address: ${email}\n\nPayload:\n${message}`,
+    };
+
+    return await transporter.sendMail(mailOptions);
+};
+</file>
+
+<file path="backend/src/app.js">
+import express from 'express';
+import cors from 'cors';
+import { contactRouter } from './routes/contact.routes.js';
+
+const app = express();
+
+// Middleware
+app.use(express.json());
+app.use(cors());
+
+// Routes
+app.use('/api/contact', contactRouter);
+
+export default app;
+</file>
+
+<file path="backend/package.json">
+{
+  "name": "backend",
+  "version": "1.0.0",
+  "main": "index.js",
+  "type": "module",
+  "scripts": {
+    "start":"node server.js",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "description": "",
+  "dependencies": {
+    "cors": "^2.8.6",
+    "dotenv": "^17.3.1",
+    "express": "^5.2.1",
+    "nodemailer": "^8.0.2"
+  }
+}
+</file>
+
+<file path="backend/server.js">
+import 'dotenv/config';
+import app from './src/app.js';
+
+const PORT = process.env.PORT || 5000;
+
+app.listen(PORT, () => {
+    console.log(`Server is actively listening on port ${PORT}`);
+});
+</file>
+
+<file path="frontend/public/favicon.svg">
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100">
+  <rect width="100" height="100" rx="25" fill="#010208" stroke="#06b6d4" stroke-width="4"/>
+  <text x="50%" y="50%" font-family="sans-serif" font-weight="900" font-size="46" fill="#ffffff" text-anchor="middle" dy=".35em">PG</text>
+  <circle cx="78" cy="75" r="5" fill="#06b6d4"/>
+</svg>
+</file>
+
+<file path="frontend/src/assets/react.svg">
+<svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" aria-hidden="true" role="img" class="iconify iconify--logos" width="35.93" height="32" preserveAspectRatio="xMidYMid meet" viewBox="0 0 256 228"><path fill="#00D8FF" d="M210.483 73.824a171.49 171.49 0 0 0-8.24-2.597c.465-1.9.893-3.777 1.273-5.621c6.238-30.281 2.16-54.676-11.769-62.708c-13.355-7.7-35.196.329-57.254 19.526a171.23 171.23 0 0 0-6.375 5.848a155.866 155.866 0 0 0-4.241-3.917C100.759 3.829 77.587-4.822 63.673 3.233C50.33 10.957 46.379 33.89 51.995 62.588a170.974 170.974 0 0 0 1.892 8.48c-3.28.932-6.445 1.924-9.474 2.98C17.309 83.498 0 98.307 0 113.668c0 15.865 18.582 31.778 46.812 41.427a145.52 145.52 0 0 0 6.921 2.165a167.467 167.467 0 0 0-2.01 9.138c-5.354 28.2-1.173 50.591 12.134 58.266c13.744 7.926 36.812-.22 59.273-19.855a145.567 145.567 0 0 0 5.342-4.923a168.064 168.064 0 0 0 6.92 6.314c21.758 18.722 43.246 26.282 56.54 18.586c13.731-7.949 18.194-32.003 12.4-61.268a145.016 145.016 0 0 0-1.535-6.842c1.62-.48 3.21-.974 4.76-1.488c29.348-9.723 48.443-25.443 48.443-41.52c0-15.417-17.868-30.326-45.517-39.844Zm-6.365 70.984c-1.4.463-2.836.91-4.3 1.345c-3.24-10.257-7.612-21.163-12.963-32.432c5.106-11 9.31-21.767 12.459-31.957c2.619.758 5.16 1.557 7.61 2.4c23.69 8.156 38.14 20.213 38.14 29.504c0 9.896-15.606 22.743-40.946 31.14Zm-10.514 20.834c2.562 12.94 2.927 24.64 1.23 33.787c-1.524 8.219-4.59 13.698-8.382 15.893c-8.067 4.67-25.32-1.4-43.927-17.412a156.726 156.726 0 0 1-6.437-5.87c7.214-7.889 14.423-17.06 21.459-27.246c12.376-1.098 24.068-2.894 34.671-5.345a134.17 134.17 0 0 1 1.386 6.193ZM87.276 214.515c-7.882 2.783-14.16 2.863-17.955.675c-8.075-4.657-11.432-22.636-6.853-46.752a156.923 156.923 0 0 1 1.869-8.499c10.486 2.32 22.093 3.988 34.498 4.994c7.084 9.967 14.501 19.128 21.976 27.15a134.668 134.668 0 0 1-4.877 4.492c-9.933 8.682-19.886 14.842-28.658 17.94ZM50.35 144.747c-12.483-4.267-22.792-9.812-29.858-15.863c-6.35-5.437-9.555-10.836-9.555-15.216c0-9.322 13.897-21.212 37.076-29.293c2.813-.98 5.757-1.905 8.812-2.773c3.204 10.42 7.406 21.315 12.477 32.332c-5.137 11.18-9.399 22.249-12.634 32.792a134.718 134.718 0 0 1-6.318-1.979Zm12.378-84.26c-4.811-24.587-1.616-43.134 6.425-47.789c8.564-4.958 27.502 2.111 47.463 19.835a144.318 144.318 0 0 1 3.841 3.545c-7.438 7.987-14.787 17.08-21.808 26.988c-12.04 1.116-23.565 2.908-34.161 5.309a160.342 160.342 0 0 1-1.76-7.887Zm110.427 27.268a347.8 347.8 0 0 0-7.785-12.803c8.168 1.033 15.994 2.404 23.343 4.08c-2.206 7.072-4.956 14.465-8.193 22.045a381.151 381.151 0 0 0-7.365-13.322Zm-45.032-43.861c5.044 5.465 10.096 11.566 15.065 18.186a322.04 322.04 0 0 0-30.257-.006c4.974-6.559 10.069-12.652 15.192-18.18ZM82.802 87.83a323.167 323.167 0 0 0-7.227 13.238c-3.184-7.553-5.909-14.98-8.134-22.152c7.304-1.634 15.093-2.97 23.209-3.984a321.524 321.524 0 0 0-7.848 12.897Zm8.081 65.352c-8.385-.936-16.291-2.203-23.593-3.793c2.26-7.3 5.045-14.885 8.298-22.6a321.187 321.187 0 0 0 7.257 13.246c2.594 4.48 5.28 8.868 8.038 13.147Zm37.542 31.03c-5.184-5.592-10.354-11.779-15.403-18.433c4.902.192 9.899.29 14.978.29c5.218 0 10.376-.117 15.453-.343c-4.985 6.774-10.018 12.97-15.028 18.486Zm52.198-57.817c3.422 7.8 6.306 15.345 8.596 22.52c-7.422 1.694-15.436 3.058-23.88 4.071a382.417 382.417 0 0 0 7.859-13.026a347.403 347.403 0 0 0 7.425-13.565Zm-16.898 8.101a358.557 358.557 0 0 1-12.281 19.815a329.4 329.4 0 0 1-23.444.823c-7.967 0-15.716-.248-23.178-.732a310.202 310.202 0 0 1-12.513-19.846h.001a307.41 307.41 0 0 1-10.923-20.627a310.278 310.278 0 0 1 10.89-20.637l-.001.001a307.318 307.318 0 0 1 12.413-19.761c7.613-.576 15.42-.876 23.31-.876H128c7.926 0 15.743.303 23.354.883a329.357 329.357 0 0 1 12.335 19.695a358.489 358.489 0 0 1 11.036 20.54a329.472 329.472 0 0 1-11 20.722Zm22.56-122.124c8.572 4.944 11.906 24.881 6.52 51.026c-.344 1.668-.73 3.367-1.15 5.09c-10.622-2.452-22.155-4.275-34.23-5.408c-7.034-10.017-14.323-19.124-21.64-27.008a160.789 160.789 0 0 1 5.888-5.4c18.9-16.447 36.564-22.941 44.612-18.3ZM128 90.808c12.625 0 22.86 10.235 22.86 22.86s-10.235 22.86-22.86 22.86s-22.86-10.235-22.86-22.86s10.235-22.86 22.86-22.86Z"></path></svg>
+</file>
+
+<file path="frontend/src/components/common/Starfield.jsx">
+import React, { useEffect, useRef } from 'react';
+
+const Starfield = () => {
+  const canvasRef = useRef(null);
+  
+  useEffect(() => {
+    const canvas = canvasRef.current;
+    const ctx = canvas.getContext('2d');
+    let animationFrameId;
+    
+    const stars = Array.from({ length: 100 }, () => ({
+      x: Math.random(), 
+      y: Math.random(), 
+      size: Math.random() * 2.5 + 0.5, 
+      vx: (Math.random() - 0.5) * 0.0005, 
+      vy: (Math.random() - 0.5) * 0.0005,
+      blinkSpeed: Math.random() * 0.02 + 0.01,
+      phase: Math.random() * Math.PI * 2,
+    }));
+
+    const resize = () => {
+      canvas.width = window.innerWidth;
+      canvas.height = window.innerHeight;
+    };
+
+    const draw = () => {
+      ctx.clearRect(0, 0, canvas.width, canvas.height);
+      
+      stars.forEach((star) => {
+        star.phase += star.blinkSpeed;
+        const currentOpacity = (Math.sin(star.phase) + 1) / 2; 
+        ctx.shadowBlur = currentOpacity * 15;
+        ctx.shadowColor = "rgba(255, 255, 255, 1)";
+        ctx.fillStyle = `rgba(255, 255, 255, ${currentOpacity * 0.9 + 0.1})`;
+        ctx.beginPath();
+        
+        const px = star.x * canvas.width;
+        const py = star.y * canvas.height;
+        
+        ctx.arc(px, py, star.size, 0, Math.PI * 2);
+        ctx.fill();
+        
+        star.x += star.vx;
+        star.y += star.vy;
+        
+        if (star.x < 0) star.x = 1;
+        if (star.x > 1) star.x = 0;
+        if (star.y < 0) star.y = 1;
+        if (star.y > 1) star.y = 0;
+      });
+      
+      ctx.shadowBlur = 0;
+      animationFrameId = requestAnimationFrame(draw);
+    };
+
+    window.addEventListener('resize', resize);
+    resize();
+    draw();
+    
+    return () => {
+      window.removeEventListener('resize', resize);
+      cancelAnimationFrame(animationFrameId);
+    };
+  }, []);
+
+  return <canvas ref={canvasRef} className="fixed top-0 left-0 w-full h-full z-0 pointer-events-none block" />;
+};
+
+export default Starfield;
+</file>
+
+<file path="frontend/src/components/common/Typewriter.jsx">
+import React from 'react';
+import { motion } from 'framer-motion';
+
+const Typewriter = ({ text }) => {
+  const letters = Array.from(text);
+  const containerVariants = {
+    animate: { transition: { staggerChildren: 0.1, delayChildren: 0.5 } }
+  };
+  const letterVariants = {
+    initial: { opacity: 0, display: "none" },
+    animate: { 
+      opacity: 1, 
+      display: "inline-block",
+      transition: { duration: 0.01, repeat: Infinity, repeatType: "reverse", repeatDelay: 3 }
+    }
+  };
+
+  return (
+    <motion.div variants={containerVariants} initial="initial" animate="animate" className="inline-flex flex-wrap items-baseline break-words">
+      {letters.map((char, index) => (
+        <motion.span key={index} variants={letterVariants}>
+          {char === " " ? "\u00A0" : char}
+        </motion.span>
+      ))}
+      <motion.span
+        animate={{ opacity: [0, 1, 0] }}
+        transition={{ duration: 0.8, repeat: Infinity, ease: "linear" }}
+        className="inline-block w-[4px] h-[0.8em] bg-cyan-500 ml-2 shadow-[0_0_10px_rgba(34,211,238,1)]"
+      />
+    </motion.div>
+  );
+};
+
+export default Typewriter;
+</file>
+
+<file path="frontend/src/components/layout/Footer.jsx">
+import React from 'react';
+import { Github, Linkedin, Mail, Instagram } from 'lucide-react';
+
+const Footer = () => {
+  return (
+    <footer className="py-20 text-center border-t border-white/5 relative z-10 bg-black/60">
+      <p className="text-[10px] font-black tracking-[1.2em] text-slate-700 uppercase italic px-4">Identity Confirmed: P. Gurav // Walchand College</p>
+      <div className="flex flex-wrap justify-center gap-10 md:gap-14 mt-10 px-6">
+        <a href="https://github.com/Pratham2779" target="_blank" rel="noreferrer" className="text-slate-500 hover:text-white transition-all hover:scale-125"><Github size={28}/></a>
+        <a href="https://www.linkedin.com/in/prathamesh-gurav-557bb9277/" target="_blank" rel="noreferrer" className="text-slate-500 hover:text-white transition-all hover:scale-125"><Linkedin size={28}/></a>
+        <a href="mailto:prathamesh.official.79@gmail.com" className="text-slate-500 hover:text-white transition-all hover:scale-125"><Mail size={28}/></a>
+        <a href="https://instagram.com" target="_blank" rel="noreferrer" className="text-slate-500 hover:text-white transition-all hover:scale-125"><Instagram size={28}/></a>
+      </div>
+    </footer>
+  );
+};
+
+export default Footer;
+</file>
+
+<file path="frontend/src/components/layout/Navbar.jsx">
+import React, { useState, useEffect } from 'react';
+
+const Navbar = () => {
+  const [isScrolled, setIsScrolled] = useState(false);
+
+  useEffect(() => {
+    const handleScroll = () => setIsScrolled(window.scrollY > 50);
+    window.addEventListener('scroll', handleScroll);
+    return () => window.removeEventListener('scroll', handleScroll);
+  }, []);
+
+  return (
+    <nav className={`fixed top-0 z-50 w-full transition-all duration-700 ${isScrolled ? 'bg-black/80 py-6 backdrop-blur-2xl border-b border-white/5' : 'bg-transparent py-12'}`}>
+      <div className="mx-auto flex max-w-[1440px] items-center justify-between px-6 md:px-10">
+        <div className="flex items-center gap-6">
+          
+     
+          <img 
+            src="../../../public/favicon.svg" 
+            alt="PG Logo" 
+            className="h-12 w-12 rounded-[12px] shadow-[0_0_20px_rgba(34,211,238,0.2)] hover:shadow-[0_0_30px_rgba(34,211,238,0.4)] transition-shadow duration-300 cursor-pointer" 
+            onClick={() => window.scrollTo(0, 0)}
+          />
+          
+          <span className="text-xl font-black tracking-tighter text-white uppercase italic">SYSTEM<span className="text-cyan-400">.</span>ROOT</span>
+        </div>
+        <div className="hidden items-center gap-10 md:flex text-[13px] font-black tracking-[0.3em] uppercase text-slate-500">
+          <a href="#about" className="hover:text-cyan-400 transition-all">Identity</a>
+          <a href="#work" className="hover:text-cyan-400 transition-all">Nexus</a>
+          <a href="#tech" className="hover:text-cyan-400 transition-all">Arsenal</a>
+          <a href="#metrics" className="hover:text-cyan-400 transition-all">Metrics</a>
+          <a href="#contact" className="hover:text-cyan-400 transition-all">Signal</a>
+        </div>
+      </div>
+    </nav>
+  );
+};
+
+export default Navbar;
+</file>
+
+<file path="frontend/src/components/sections/Arsenal.jsx">
+import React from 'react';
+import { motion } from 'framer-motion';
+import { techStackData, courseworkData } from '../../constants';
+
+const Arsenal = () => {
+  return (
+    <section id="tech" className="py-24 lg:py-48 px-6 md:px-10 relative z-10">
+      <div className="mx-auto max-w-[1440px]">
+        <h2 className="text-4xl md:text-5xl font-black text-white tracking-tighter uppercase italic mb-16 md:mb-20 flex items-center gap-4 md:gap-6">
+          <span className="text-cyan-500 text-2xl md:text-3xl font-mono">02/</span> Arsenal & Core
+        </h2>
+        
+        <div className="grid lg:grid-cols-3 gap-12">
+          <div className="lg:col-span-2 grid grid-cols-3 sm:grid-cols-4 md:grid-cols-5 xl:grid-cols-6 gap-4">
+            {techStackData.map((tech) => (
+              <motion.div key={tech.name} whileHover={{ scale: 1.1, y: -5 }} className="flex flex-col items-center justify-center aspect-square rounded-[1.5rem] bg-white/5 border-2 border-white/10 backdrop-blur-xl p-4 group transition-all shadow-xl hover:border-cyan-500/50">
+                <img src={tech.src} alt={tech.name} className="h-10 w-10 md:h-12 md:w-12 object-contain transition-all duration-300 group-hover:scale-110" />
+                <span className="text-[8px] md:text-[9px] font-black tracking-widest text-slate-400 mt-3 uppercase group-hover:text-cyan-400 text-center">{tech.name}</span>
+              </motion.div>
+            ))}
+          </div>
+
+          <div className="lg:col-span-1 space-y-6">
+            <div className="p-8 md:p-10 rounded-[2rem] md:rounded-[3rem] bg-white/[0.03] border border-white/10 backdrop-blur-2xl shadow-2xl h-full">
+              <h3 className="text-xl md:text-2xl font-black text-white uppercase tracking-tight mb-8">Core Coursework</h3>
+              <ul className="space-y-6">
+                {courseworkData.map((course, i) => (
+                  <li key={i} className="flex items-center gap-4 text-slate-400 font-medium text-sm md:text-base">
+                    <div className="h-2 w-2 rounded-full bg-cyan-500 shrink-0 shadow-[0_0_10px_rgba(34,211,238,0.8)]" />
+                    {course}
+                  </li>
+                ))}
+              </ul>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+  );
+};
+
+export default Arsenal;
+</file>
+
+<file path="frontend/src/components/sections/Contact.jsx">
+import React, { useState } from 'react';
+import { motion } from 'framer-motion';
+import { Mail, Phone } from 'lucide-react';
+
+const Contact = () => {
+  const [formData, setFormData] = useState({ name: '', email: '', message: '' });
+  const [formStatus, setFormStatus] = useState('idle');
+
+  const handleContactSubmit = async (e) => {
+    e.preventDefault();
+    setFormStatus('submitting');
+    
+    try {
+      const response = await fetch('http://localhost:5000/api/contact', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(formData)
+      });
+
+      if (response.ok) {
+        setFormStatus('success');
+        setFormData({ name: '', email: '', message: '' });
+        setTimeout(() => setFormStatus('idle'), 5000);
+      } else {
+        setFormStatus('error');
+        setTimeout(() => setFormStatus('idle'), 5000);
+      }
+    } catch (error) {
+      setFormStatus('error');
+      setTimeout(() => setFormStatus('idle'), 5000);
+    }
+  };
+
+  return (
+    <section id="contact" className="py-24 lg:py-48 px-6 md:px-10 relative z-10">
+      <div className="mx-auto max-w-[1440px]">
+        <h2 className="text-4xl md:text-5xl font-black text-white tracking-tighter uppercase italic mb-16 md:mb-20 flex items-center gap-4 md:gap-6">
+          <span className="text-cyan-500 text-2xl md:text-3xl font-mono">04/</span> Signal_Open
+        </h2>
+
+        <div className="grid lg:grid-cols-2 gap-16 items-start">
+          
+          {/* Left Column: Direct Contact Info */}
+          <motion.div initial={{ opacity: 0, x: -50 }} whileInView={{ opacity: 1, x: 0 }} transition={{ duration: 0.8 }} className="space-y-12">
+            <h3 className="text-4xl sm:text-6xl lg:text-7xl font-black text-white tracking-tighter uppercase leading-tight">
+              Establish <br/><span className="text-cyan-400">Connection.</span>
+            </h3>
+            <p className="text-slate-400 text-base md:text-lg leading-relaxed max-w-md font-medium">
+              Whether you have a question, a project proposal, or just want to network, my system is actively listening.
+            </p>
+            
+            <div className="space-y-6">
+              <a href="mailto:prathamesh.official.79@gmail.com" className="group flex flex-col sm:flex-row items-start sm:items-center gap-4 sm:gap-6 p-4 rounded-3xl bg-white/5 border border-white/10 hover:border-cyan-500/50 transition-all w-full sm:w-fit break-all sm:break-normal">
+                <div className="h-14 w-14 rounded-2xl bg-black/50 flex shrink-0 items-center justify-center group-hover:scale-110 transition-transform shadow-[0_0_15px_rgba(34,211,238,0.1)]">
+                  <Mail size={24} className="text-cyan-400" />
+                </div>
+                <div className="pr-2 sm:pr-6">
+                  <p className="text-[10px] text-slate-500 font-black tracking-widest uppercase mb-1">Email_Protocol</p>
+                  <p className="text-slate-200 text-sm sm:text-base font-bold tracking-wide">prathamesh.official.79@gmail.com</p>
+                </div>
+              </a>
+
+              <div className="group flex flex-col sm:flex-row items-start sm:items-center gap-4 sm:gap-6 p-4 rounded-3xl bg-white/5 border border-white/10 hover:border-cyan-500/50 transition-all w-full sm:w-fit cursor-default">
+                <div className="h-14 w-14 rounded-2xl bg-black/50 flex shrink-0 items-center justify-center group-hover:scale-110 transition-transform shadow-[0_0_15px_rgba(34,211,238,0.1)]">
+                  <Phone size={24} className="text-cyan-400" />
+                </div>
+                <div className="pr-2 sm:pr-6">
+                  <p className="text-[10px] text-slate-500 font-black tracking-widest uppercase mb-1">Voice_Protocol</p>
+                  <p className="text-slate-200 text-sm sm:text-base font-bold tracking-wide">+91 9623108820</p>
+                </div>
+              </div>
+            </div>
+          </motion.div>
+
+          {/* Right Column: Contact Form */}
+          <motion.div initial={{ opacity: 0, x: 50 }} whileInView={{ opacity: 1, x: 0 }} transition={{ duration: 0.8 }}>
+            <form onSubmit={handleContactSubmit} className="p-8 md:p-10 rounded-[2rem] md:rounded-[3rem] bg-white/[0.02] border border-white/10 backdrop-blur-2xl shadow-2xl space-y-6">
+              <div>
+                <label className="block text-[10px] font-black tracking-widest uppercase text-slate-400 mb-3 ml-2">Identity_String</label>
+                <input 
+                  type="text" required 
+                  value={formData.name} onChange={(e) => setFormData({...formData, name: e.target.value})} 
+                  className="w-full bg-white/5 border border-white/10 rounded-2xl px-6 py-4 text-white focus:outline-none focus:border-cyan-500/50 focus:bg-white/10 transition-all placeholder:text-slate-600 font-medium" 
+                  placeholder="Enter your name" 
+                />
+              </div>
+              <div>
+                <label className="block text-[10px] font-black tracking-widest uppercase text-slate-400 mb-3 ml-2">Return_Address</label>
+                <input 
+                  type="email" required 
+                  value={formData.email} onChange={(e) => setFormData({...formData, email: e.target.value})} 
+                  className="w-full bg-white/5 border border-white/10 rounded-2xl px-6 py-4 text-white focus:outline-none focus:border-cyan-500/50 focus:bg-white/10 transition-all placeholder:text-slate-600 font-medium" 
+                  placeholder="Enter your email address" 
+                />
+              </div>
+              <div>
+                <label className="block text-[10px] font-black tracking-widest uppercase text-slate-400 mb-3 ml-2">Message_Payload</label>
+                <textarea 
+                  required rows={4} 
+                  value={formData.message} onChange={(e) => setFormData({...formData, message: e.target.value})} 
+                  className="w-full bg-white/5 border border-white/10 rounded-2xl px-6 py-4 text-white focus:outline-none focus:border-cyan-500/50 focus:bg-white/10 transition-all placeholder:text-slate-600 resize-none font-medium" 
+                  placeholder="Initiate transmission sequence..." 
+                />
+              </div>
+              <button 
+                type="submit" disabled={formStatus === 'submitting'} 
+                className="w-full inline-flex justify-center items-center gap-4 px-8 py-5 rounded-2xl bg-cyan-500 hover:bg-cyan-400 text-slate-950 font-black text-sm tracking-[0.2em] uppercase transition-all shadow-[0_0_30px_rgba(34,211,238,0.25)] hover:shadow-[0_0_40px_rgba(34,211,238,0.5)] disabled:opacity-50 disabled:cursor-not-allowed disabled:hover:shadow-none"
+              >
+                {formStatus === 'submitting' ? 'Transmitting Data...' : formStatus === 'success' ? 'Link Established' : 'Transmit Data'}
+              </button>
+              {formStatus === 'error' && <p className="text-red-400 text-sm mt-4 text-center font-bold">Transmission Failed. Please try again.</p>}
+              {formStatus === 'success' && <p className="text-cyan-400 text-sm mt-4 text-center font-bold">Message delivered successfully.</p>}
+            </form>
+          </motion.div>
+
+        </div>
+      </div>
+    </section>
+  );
+};
+
+export default Contact;
+</file>
+
+<file path="frontend/src/components/sections/Identity.jsx">
+import React from 'react';
+import { motion } from 'framer-motion';
+import { Terminal, Github, Linkedin, Mail, Instagram, Award, GraduationCap, Zap } from 'lucide-react';
+import Typewriter from '../common/Typewriter';
+
+const Identity = () => {
+  return (
+    <section id="about" className="relative min-h-screen flex items-center pt-24 px-6 md:px-10 z-10">
+      <div className="mx-auto max-w-[1440px] w-full">
+        <div className="grid lg:grid-cols-12 gap-8 items-center">
+          
+          {/* Left Content */}
+          <motion.div className="lg:col-span-7 space-y-8 z-20" initial={{ opacity: 0, x: -50 }} whileInView={{ opacity: 1, x: 0 }} transition={{ duration: 0.8 }}>
+            <div className="inline-flex items-center gap-4 px-5 py-2 rounded-lg border border-cyan-500/30 bg-cyan-500/10 backdrop-blur-md">
+              <Terminal size={22} className="text-cyan-400" />
+              <span className="text-sm font-black tracking-[0.2em] text-cyan-400 uppercase">WCE_SANGLI // AUG 2023 - JUN 2027</span>
+            </div>
+            
+            <div className="space-y-2">
+              <h2 className="text-slate-500 text-xl font-black uppercase tracking-[0.6em]">The Architect</h2>
+              <h1 className="text-5xl sm:text-7xl xl:text-[5rem] font-black text-white tracking-tighter leading-tight uppercase italic pb-2">
+                <Typewriter text="Prathamesh Gurav" />
+              </h1>
+            </div>
+            
+            <p className="text-slate-400 text-xl xl:text-2xl leading-relaxed max-w-2xl font-medium">
+              Pursuing <span className="text-white border-b-4 border-cyan-500">B.Tech in Information Technology</span>. Specialized in building secure, high-availability distributed systems and automated CI/CD pipelines.
+            </p>
+
+            <div className="flex flex-wrap items-center gap-4 sm:gap-6 pt-2">
+              <a href="https://github.com/Pratham2779" target="_blank" rel="noreferrer" className="group flex items-center justify-center h-14 w-14 rounded-2xl border border-white/10 bg-white/5 backdrop-blur-md hover:bg-cyan-500/10 hover:border-cyan-500/50 hover:shadow-[0_0_20px_rgba(34,211,238,0.2)] transition-all hover:-translate-y-1">
+                <Github size={24} className="text-slate-400 group-hover:text-cyan-400 transition-colors" />
+              </a>
+              <a href="https://www.linkedin.com/in/prathamesh-gurav-557bb9277/" target="_blank" rel="noreferrer" className="group flex items-center justify-center h-14 w-14 rounded-2xl border border-white/10 bg-white/5 backdrop-blur-md hover:bg-cyan-500/10 hover:border-cyan-500/50 hover:shadow-[0_0_20px_rgba(34,211,238,0.2)] transition-all hover:-translate-y-1">
+                <Linkedin size={24} className="text-slate-400 group-hover:text-cyan-400 transition-colors" />
+              </a>
+              <a href="mailto:prathamesh.official.79@gmail.com" className="group flex items-center justify-center h-14 w-14 rounded-2xl border border-white/10 bg-white/5 backdrop-blur-md hover:bg-cyan-500/10 hover:border-cyan-500/50 hover:shadow-[0_0_20px_rgba(34,211,238,0.2)] transition-all hover:-translate-y-1">
+                <Mail size={24} className="text-slate-400 group-hover:text-cyan-400 transition-colors" />
+              </a>
+              <a href="https://instagram.com" target="_blank" rel="noreferrer" className="group flex items-center justify-center h-14 w-14 rounded-2xl border border-white/10 bg-white/5 backdrop-blur-md hover:bg-cyan-500/10 hover:border-cyan-500/50 hover:shadow-[0_0_20px_rgba(34,211,238,0.2)] transition-all hover:-translate-y-1">
+                <Instagram size={24} className="text-slate-400 group-hover:text-cyan-400 transition-colors" />
+              </a>
+              
+              <a href="https://drive.google.com/file/d/1rJKFl1H4Taxs4jEDOnqYt3qFnBEUAXT2/view" target="_blank" rel="noreferrer" className="mt-2 sm:mt-0 inline-flex items-center justify-center h-14 px-8 sm:ml-2 rounded-2xl border border-cyan-500/50 bg-cyan-500/10 text-cyan-400 font-black tracking-widest uppercase hover:bg-cyan-500 hover:text-slate-900 transition-all shadow-[0_0_20px_rgba(34,211,238,0.2)] hover:-translate-y-1">
+                Access_Resume
+              </a>
+            </div>
+
+            <div className="grid grid-cols-1 md:grid-cols-3 gap-6 pt-6">
+              {[
+                { label: "ACADEMIC_CGPA", val: "8.77", icon: <Award size={24}/> },
+                { label: "CURRENT_SEM", val: "06", icon: <GraduationCap size={24}/> },
+                { label: "SYSTEM_STATUS", val: "ACTIVE", icon: <Zap size={24}/> },
+              ].map((stat, i) => (
+                <div key={i} className="p-6 rounded-2xl border-2 border-white/10 bg-white/5 backdrop-blur-xl shadow-2xl transition-all hover:bg-white/10">
+                  <div className="flex items-center gap-2 text-cyan-400 mb-3">
+                    {stat.icon}
+                    <span className="text-[10px] font-black tracking-widest uppercase text-slate-400">{stat.label}</span>
+                  </div>
+                  <div className="text-4xl font-black text-white">{stat.val}</div>
+                </div>
+              ))}
+            </div>
+          </motion.div>
+
+          {/* Right Photo */}
+          <motion.div 
+            className="lg:col-span-5 flex justify-center lg:justify-end"
+            initial={{ opacity: 0, x: 100 }} 
+            whileInView={{ opacity: 1, x: 0 }}
+            transition={{ duration: 1 }}
+          >
+            <div tabIndex="0" className="relative group mt-12 lg:mt-0 cursor-pointer focus:outline-none">
+              <div className="absolute -inset-6 bg-gradient-to-r from-cyan-500 to-blue-600 rounded-[4rem] opacity-20 blur-3xl" />
+              <div className="relative w-[280px] sm:w-[350px] xl:w-[400px] aspect-[4/5] rounded-[3.5rem] border-2 border-white/20 bg-slate-900/60 backdrop-blur-3xl p-3 shadow-2xl overflow-hidden group-hover:border-cyan-500/50 group-focus:border-cyan-500/50 group-active:border-cyan-500/50 transition-all duration-500">
+                <img 
+                  src="https://raw.githubusercontent.com/Pratham2779/Pratham2779/main/profile_photo.png" 
+                  alt="Profile" 
+                  className="w-full h-full object-cover rounded-[2.8rem] grayscale group-hover:grayscale-0 group-focus:grayscale-0 group-active:grayscale-0 transition-all duration-1000 opacity-90"
+                />
+              </div>
+            </div>
+          </motion.div>
+        </div>
+      </div>
+    </section>
+  );
+};
+
+export default Identity;
+</file>
+
+<file path="frontend/src/components/sections/Metrics.jsx">
+import React from 'react';
+import { Code2, Terminal, Server, Trophy, Target } from 'lucide-react';
+import { achievementsData } from '../../constants';
+
+const Metrics = () => {
+  const profiles = [
+    { platform: "LeetCode", handle: "prathamesh", link: "https://leetcode.com/u/G/", stat1: "700+ Solved", stat2: "Max Rating: 1726", icon: <Code2 size={32}/> },
+    { platform: "Codeforces", handle: "prathamesh", link: "https://codeforces.com/profile/pr", stat1: "200+ Solved", stat2: "Max Rating: 1056 (Newbie)", icon: <Terminal size={32}/> },
+    { platform: "CodeChef", handle: "prathamesh", link: "https://www.codechef.com/users/bo", stat1: "2 Star", stat2: "Max Rating: 1426", icon: <Server size={32}/> },
+    { platform: "GeeksforGeeks", handle: "prathamesh", link: "https://auth.geeksforgeeks.org/user/pr", stat1: "300+ Solved", stat2: "Score: 1200", icon: <Code2 size={32}/> },
+  ];
+
+  return (
+    <section id="metrics" className="py-24 lg:py-48 px-6 md:px-10 relative z-10 border-y border-white/5 bg-black/20">
+      <div className="mx-auto max-w-[1440px]">
+        <h2 className="text-4xl md:text-5xl font-black text-white tracking-tighter uppercase italic mb-16 md:mb-20 flex items-center gap-4 md:gap-6">
+          <span className="text-cyan-500 text-2xl md:text-3xl font-mono">03/</span> Operational_Metrics
+        </h2>
+
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 md:gap-8 mb-20">
+          {profiles.map((profile, i) => (
+            <a key={i} href={profile.link} target="_blank" rel="noreferrer" className="group block p-8 md:p-10 rounded-[2rem] md:rounded-[3rem] bg-white/[0.03] border border-white/10 backdrop-blur-2xl hover:border-cyan-500/50 transition-all shadow-2xl">
+              <div className="text-cyan-400 mb-6">{profile.icon}</div>
+              <h3 className="text-2xl md:text-3xl font-black text-white uppercase tracking-tight mb-2 group-hover:text-cyan-400 transition-colors break-words">{profile.platform}</h3>
+              <p className="text-cyan-500 text-xs md:text-sm font-bold tracking-widest uppercase mb-6 break-words">@{profile.handle}</p>
+              <div className="space-y-2">
+                <p className="text-slate-400 text-sm md:text-base font-medium flex items-center gap-3"><Trophy size={14} className="text-slate-500 shrink-0"/> {profile.stat1}</p>
+                <p className="text-slate-400 text-sm md:text-base font-medium flex items-center gap-3"><Target size={14} className="text-slate-500 shrink-0"/> {profile.stat2}</p>
+              </div>
+            </a>
+          ))}
+        </div>
+
+        <div className="p-8 md:p-12 rounded-[2rem] md:rounded-[3rem] bg-white/[0.02] border border-white/10 backdrop-blur-2xl shadow-2xl">
+          <h3 className="text-xl md:text-2xl font-black text-cyan-400 uppercase tracking-widest mb-10">Notable_Achievements</h3>
+          <ul className="space-y-8">
+            {achievementsData.map((achievement, i) => (
+              <li key={i} className="flex gap-4 md:gap-6 items-start">
+                <div className="mt-2 h-2 w-2 rounded-full bg-cyan-500 shrink-0 shadow-[0_0_10px_rgba(34,211,238,0.8)]" />
+                <p className="text-slate-300 text-base md:text-lg leading-relaxed">{achievement}</p>
+              </li>
+            ))}
+          </ul>
+        </div>
+      </div>
+    </section>
+  );
+};
+
+export default Metrics;
+</file>
+
+<file path="frontend/src/components/sections/Projects.jsx">
+import React from 'react';
+import { motion } from 'framer-motion';
+import { Github, ExternalLink } from 'lucide-react';
+import { projectsData } from '../../constants';
+
+const Projects = () => {
+  return (
+    <section id="work" className="py-24 lg:py-48 px-6 md:px-10 relative z-10 border-y border-white/5 bg-black/20">
+      <div className="mx-auto max-w-[1440px]">
+        <h2 className="text-4xl md:text-5xl font-black text-white tracking-tighter uppercase italic mb-16 md:mb-20 flex items-center gap-4 md:gap-6">
+          <span className="text-cyan-500 text-2xl md:text-3xl font-mono">01/</span> Project_Nexus
+        </h2>
+        <div className="grid gap-8 lg:grid-cols-2">
+          {projectsData.map((project, i) => (
+            <motion.div key={i} whileHover={{ y: -10 }} className="group relative p-8 md:p-10 rounded-[2rem] md:rounded-[3rem] bg-white/[0.03] border border-white/10 backdrop-blur-2xl hover:border-cyan-500/30 transition-all shadow-2xl overflow-hidden">
+              <p className="text-sm font-black text-cyan-500 tracking-[0.4em] uppercase mb-4">{project.category}</p>
+              <h3 className="text-3xl md:text-4xl font-black text-white mb-6 group-hover:text-cyan-400 transition-colors uppercase leading-none">{project.title}</h3>
+              <p className="text-slate-400 text-base md:text-lg leading-relaxed mb-8 font-medium">{project.desc}</p>
+              <div className="flex flex-wrap gap-2 mb-10">
+                {project.tech.map(t => <span key={t} className="px-4 py-1.5 rounded-lg bg-white/5 border border-white/5 text-[10px] font-black text-slate-500 uppercase">{t}</span>)}
+              </div>
+              <div className="flex flex-wrap gap-6 md:gap-8">
+                <a href={project.github} target="_blank" rel="noreferrer" className="flex items-center gap-2 text-xs font-black text-white hover:text-cyan-400 transition-all uppercase tracking-widest"><Github size={18}/> Source</a>
+                {project.live && (
+                  <a href={project.live} target="_blank" rel="noreferrer" className="flex items-center gap-2 text-xs font-black text-white hover:text-cyan-400 transition-all uppercase tracking-widest"><ExternalLink size={18}/> Live_Link</a>
+                )}
+              </div>
+            </motion.div>
+          ))}
+        </div>
+      </div>
+    </section>
+  );
+};
+
+export default Projects;
+</file>
+
+<file path="frontend/src/constants/index.js">
+export const projectsData = [
+  { 
+    title: "KodeBox", 
+    category: "Cloud IDE", 
+    desc: "Containerized cloud IDE with isolated Docker workspaces, live WebSockets terminal, Traefik reverse proxy for sub-domains, and automated AWS S3 backups.", 
+    tech: ["Docker", "Node.js", "React", "AWS S3", "Traefik"], 
+    github: "https://github.com/Pratham2779/Kodebox",
+    live: "https://kodebox.prathamesh.site"
+  },
+  { 
+    title: "AuditPro", 
+    category: "Management System", 
+    desc: "Jewellery audit system replacing manual spreadsheets. Features barcode scanning, role-based access, CSV/XLSX upload, and automated PDF report generation.", 
+    tech: ["React.js", "Node.js", "Express.js", "MongoDB"], 
+    github: "https://github.com/Pratham2779/Auditpro.git",
+    live: "https://auditpro.prathamesh.site/"
+  },
+  { 
+    title: "Self-Hosted Server", 
+    category: "Infrastructure", 
+    desc: "Cost-effective self-assembled server. Configured Ubuntu Server with Nginx, Docker, SSH, and Cloudflare Tunnels for high-availability personal project deployment.", 
+    tech: ["Ubuntu", "Nginx", "Cloudflare", "Docker"], 
+    github: "https://github.com/Pratham2779/HomeLabServer.git",
+    live: null
+  },
+  { 
+    title: "CI/CD Automation", 
+    category: "DevOps", 
+    desc: "Jenkins-based CI/CD pipeline automating build/deploy for Node.js apps. Utilizes Docker multi-stage builds and enables zero-downtime rollbacks.", 
+    tech: ["Jenkins", "Docker", "Node.js", "Express"], 
+    github: "https://github.com/Pratham2779/cicd_demo.git",
+    live: "https://cicd.prathamesh.site/"
+  }
+];
+
+export const techStackData = [
+  { name: 'C', src: 'https://cdn.jsdelivr.net/gh/devicons/devicon@latest/icons/c/c-original.svg' },
+  { name: 'C++', src: 'https://cdn.jsdelivr.net/gh/devicons/devicon@latest/icons/cplusplus/cplusplus-original.svg' },
+  { name: 'Java', src: 'https://cdn.jsdelivr.net/gh/devicons/devicon@latest/icons/java/java-original.svg' },
+  { name: 'JavaScript', src: 'https://cdn.jsdelivr.net/gh/devicons/devicon@latest/icons/javascript/javascript-original.svg' },
+  { name: 'React', src: 'https://cdn.jsdelivr.net/gh/devicons/devicon@latest/icons/react/react-original.svg' },
+  { name: 'Node.js', src: 'https://cdn.jsdelivr.net/gh/devicons/devicon@latest/icons/nodejs/nodejs-original.svg' },
+  { name: 'Docker', src: 'https://cdn.jsdelivr.net/gh/devicons/devicon@latest/icons/docker/docker-original.svg' },
+  { name: 'Kubernetes', src: 'https://cdn.jsdelivr.net/gh/devicons/devicon@latest/icons/kubernetes/kubernetes-plain.svg' },
+  { name: 'Jenkins', src: 'https://cdn.jsdelivr.net/gh/devicons/devicon@latest/icons/jenkins/jenkins-original.svg' },
+  { name: 'Linux', src: 'https://cdn.jsdelivr.net/gh/devicons/devicon@latest/icons/linux/linux-original.svg' },
+  { name: 'Git', src: 'https://cdn.jsdelivr.net/gh/devicons/devicon@latest/icons/git/git-original.svg' },
+  { name: 'SQL', src: 'https://cdn.jsdelivr.net/gh/devicons/devicon@latest/icons/azuresqldatabase/azuresqldatabase-original.svg' },
+  { name: 'MongoDB', src: 'https://cdn.jsdelivr.net/gh/devicons/devicon@latest/icons/mongodb/mongodb-original.svg' },
+];
+
+export const courseworkData = [
+  'Database Management Systems', 
+  'Operating Systems', 
+  'Computer Networks', 
+  'Object Oriented Programming', 
+  'Data Structures & Algorithms'
+];
+
+export const achievementsData = [
+  "Top 11.4% global ranking on LeetCode, through consistent problem-solving practice.",
+  "Successfully solved all problems (AK) in LeetCode Weekly Contest 490.",
+  "Ranked 1425th among 28k contestants in CodeChef Starters 164.",
+  "Secured 4th position in CTF (Capture The Flag) at Vision 2025, a college technical event."
+];
+</file>
+
+<file path="frontend/src/App.css">
+@import "tailwindcss";
+</file>
+
+<file path="frontend/src/App.jsx">
+import React from 'react';
+import Starfield from './components/common/Starfield';
+import Navbar from './components/layout/Navbar';
+import Footer from './components/layout/Footer';
+import Identity from './components/sections/Identity';
+import Projects from './components/sections/Projects';
+import Arsenal from './components/sections/Arsenal';
+import Metrics from './components/sections/Metrics';
+import Contact from './components/sections/Contact';
+
+function App() {
+  return (
+    <div className="min-h-screen bg-[#010208] text-slate-200 font-sans selection:bg-cyan-500/30 scroll-smooth relative overflow-x-hidden">
+      <Starfield />
+      <div className="fixed inset-0 z-0 pointer-events-none bg-[radial-gradient(circle_at_center,rgba(79,70,229,0.04)_0%,transparent_80%)]" />
+      
+      <Navbar />
+      <Identity />
+      <Projects />
+      <Arsenal />
+      <Metrics />
+      <Contact />
+      <Footer />
+      
+    </div>
+  );
+}
+
+export default App;
+</file>
+
+<file path="frontend/src/index.css">
+@import "tailwindcss";
+</file>
+
+<file path="frontend/src/main.jsx">
+import { StrictMode } from 'react'
+import { createRoot } from 'react-dom/client'
+import './index.css'
+import App from './App.jsx'
+
+createRoot(document.getElementById('root')).render(
+  <StrictMode>
+    <App />
+  </StrictMode>,
+)
+</file>
+
+<file path="frontend/.gitignore">
+# Logs
+logs
+*.log
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+pnpm-debug.log*
+lerna-debug.log*
+
+node_modules
+dist
+dist-ssr
+*.local
+
+# Editor directories and files
+.vscode/*
+!.vscode/extensions.json
+.idea
+.DS_Store
+*.suo
+*.ntvs*
+*.njsproj
+*.sln
+*.sw?
+</file>
+
+<file path="frontend/eslint.config.js">
+import js from '@eslint/js'
+import globals from 'globals'
+import reactHooks from 'eslint-plugin-react-hooks'
+import reactRefresh from 'eslint-plugin-react-refresh'
+import { defineConfig, globalIgnores } from 'eslint/config'
+
+export default defineConfig([
+  globalIgnores(['dist']),
+  {
+    files: ['**/*.{js,jsx}'],
+    extends: [
+      js.configs.recommended,
+      reactHooks.configs.flat.recommended,
+      reactRefresh.configs.vite,
+    ],
+    languageOptions: {
+      ecmaVersion: 2020,
+      globals: globals.browser,
+      parserOptions: {
+        ecmaVersion: 'latest',
+        ecmaFeatures: { jsx: true },
+        sourceType: 'module',
+      },
+    },
+    rules: {
+      'no-unused-vars': ['error', { varsIgnorePattern: '^[A-Z_]' }],
+    },
+  },
+])
+</file>
+
+<file path="frontend/index.html">
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <link rel="icon" type="image/svg+xml" href="/public/favicon.svg" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>portfolio</title>
+  </head>
+  <body>
+    <div id="root"></div>
+    <script type="module" src="/src/main.jsx"></script>
+  </body>
+</html>
+</file>
+
+<file path="frontend/package.json">
+{
+  "name": "portfolio",
+  "private": true,
+  "version": "0.0.0",
+  "type": "module",
+  "scripts": {
+    "dev": "vite",
+    "build": "vite build",
+    "lint": "eslint .",
+    "preview": "vite preview"
+  },
+  "dependencies": {
+    "@react-three/drei": "^10.7.7",
+    "@react-three/fiber": "^9.5.0",
+    "@tailwindcss/vite": "^4.2.1",
+    "framer-motion": "^12.36.0",
+    "install": "^0.13.0",
+    "lucide-react": "^0.577.0",
+    "react": "^19.2.0",
+    "react-dom": "^19.2.0",
+    "tailwindcss": "^4.2.1",
+    "three": "^0.183.2"
+  },
+  "devDependencies": {
+    "@eslint/js": "^9.39.1",
+    "@types/react": "^19.2.7",
+    "@types/react-dom": "^19.2.3",
+    "@vitejs/plugin-react": "^5.1.1",
+    "eslint": "^9.39.1",
+    "eslint-plugin-react-hooks": "^7.0.1",
+    "eslint-plugin-react-refresh": "^0.4.24",
+    "globals": "^16.5.0",
+    "vite": "^7.3.1"
+  }
+}
+</file>
+
+<file path="frontend/README.md">
+# React + Vite
+
+This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+
+Currently, two official plugins are available:
+
+- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react) uses [Babel](https://babeljs.io/) (or [oxc](https://oxc.rs) when used in [rolldown-vite](https://vite.dev/guide/rolldown)) for Fast Refresh
+- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react-swc) uses [SWC](https://swc.rs/) for Fast Refresh
+
+## React Compiler
+
+The React Compiler is not enabled on this template because of its impact on dev & build performances. To add it, see [this documentation](https://react.dev/learn/react-compiler/installation).
+
+## Expanding the ESLint configuration
+
+If you are developing a production application, we recommend using TypeScript with type-aware lint rules enabled. Check out the [TS template](https://github.com/vitejs/vite/tree/main/packages/create-vite/template-react-ts) for information on how to integrate TypeScript and [`typescript-eslint`](https://typescript-eslint.io) in your project.
+</file>
+
+<file path="frontend/vite.config.js">
+import { defineConfig } from 'vite'
+import react from '@vitejs/plugin-react'
+import tailwindcss from '@tailwindcss/vite'
+
+// https://vite.dev/config/
+export default defineConfig({
+  plugins: [react(),
+    tailwindcss()
+  ],
+})
+</file>
+
+<file path=".gitignore">
+# Logs
+logs
+*.log
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+lerna-debug.log*
+
+# Diagnostic reports (https://nodejs.org/api/report.html)
+report.[0-9]*.[0-9]*.[0-9]*.[0-9]*.json
+
+# Runtime data
+pids
+*.pid
+*.seed
+*.pid.lock
+
+# Directory for instrumented libs generated by jscoverage/JSCover
+lib-cov
+
+# Coverage directory used by tools like istanbul
+coverage
+*.lcov
+
+# nyc test coverage
+.nyc_output
+
+# Grunt intermediate storage (https://gruntjs.com/creating-plugins#storing-task-files)
+.grunt
+
+# Bower dependency directory (https://bower.io/)
+bower_components
+
+# node-waf configuration
+.lock-wscript
+
+# Compiled binary addons (https://nodejs.org/api/addons.html)
+build/Release
+
+# Dependency directories
+node_modules/
+jspm_packages/
+
+# Snowpack dependency directory (https://snowpack.dev/)
+web_modules/
+
+# TypeScript cache
+*.tsbuildinfo
+
+# Optional npm cache directory
+.npm
+
+# Optional eslint cache
+.eslintcache
+
+# Optional stylelint cache
+.stylelintcache
+
+# Optional REPL history
+.node_repl_history
+
+# Output of 'npm pack'
+*.tgz
+
+# Yarn Integrity file
+.yarn-integrity
+
+# dotenv environment variable files
+.env
+.env.*
+!.env.example
+
+# parcel-bundler cache (https://parceljs.org/)
+.cache
+.parcel-cache
+
+# Next.js build output
+.next
+out
+
+# Nuxt.js build / generate output
+.nuxt
+dist
+
+# Gatsby files
+.cache/
+# Comment in the public line in if your project uses Gatsby and not Next.js
+# https://nextjs.org/blog/next-9-1#public-directory-support
+# public
+
+# vuepress build output
+.vuepress/dist
+
+# vuepress v2.x temp and cache directory
+.temp
+.cache
+
+# Sveltekit cache directory
+.svelte-kit/
+
+# vitepress build output
+**/.vitepress/dist
+
+# vitepress cache directory
+**/.vitepress/cache
+
+# Docusaurus cache and generated files
+.docusaurus
+
+# Serverless directories
+.serverless/
+
+# FuseBox cache
+.fusebox/
+
+# DynamoDB Local files
+.dynamodb/
+
+# Firebase cache directory
+.firebase/
+
+# TernJS port file
+.tern-port
+
+# Stores VSCode versions used for testing VSCode extensions
+.vscode-test
+
+# yarn v3
+.pnp.*
+.yarn/*
+!.yarn/patches
+!.yarn/plugins
+!.yarn/releases
+!.yarn/sdks
+!.yarn/versions
+
+# Vite logs files
+vite.config.js.timestamp-*
+vite.config.ts.timestamp-*
+</file>
+
+<file path="README.md">
+# Portfolio_PG
+This is portfolio of my that has setup cicd pipeline
+</file>
+
+</files>

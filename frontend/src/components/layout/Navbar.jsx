@@ -16,7 +16,7 @@ const Navbar = () => {
           
      
           <img 
-            src="../../../public/favicon.svg" 
+            src="/favicon.svg" 
             alt="PG Logo" 
             className="h-12 w-12 rounded-[12px] shadow-[0_0_20px_rgba(34,211,238,0.2)] hover:shadow-[0_0_30px_rgba(34,211,238,0.4)] transition-shadow duration-300 cursor-pointer" 
             onClick={() => window.scrollTo(0, 0)}
