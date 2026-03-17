@@ -24,7 +24,7 @@ const Identity = () => {
             </div>
             
             <p className="text-slate-400 text-xl xl:text-2xl leading-relaxed max-w-2xl font-medium">
-              Pursuing <span className="text-white border-b-4 border-cyan-500">B.Tech in Information Technology</span>. Specialized in building secure, high-availability distributed systems and automated CI/CD pipelines.
+              Pursuing <span className="text-white border-b-4 border-cyan-500">B.Tech in Information Technology</span>. Specializing in building secure, high-availability software systems and automated deployment cycles. Highly adaptable and driven by continuous learning, I thrive in dynamic environments where rapid technological change is the baseline.
             </p>
 
             <div className="flex flex-wrap items-center gap-4 sm:gap-6 pt-2">
