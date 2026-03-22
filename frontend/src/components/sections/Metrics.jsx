@@ -4,10 +4,10 @@ import { achievementsData } from '../../constants';
 
 const Metrics = () => {
   const profiles = [
-    { platform: "LeetCode", handle: "prathamesh", link: "https://leetcode.com/u/G/", stat1: "700+ Solved", stat2: "Max Rating: 1726", icon: <Code2 size={32}/> },
-    { platform: "Codeforces", handle: "prathamesh", link: "https://codeforces.com/profile/pr", stat1: "200+ Solved", stat2: "Max Rating: 1056 (Newbie)", icon: <Terminal size={32}/> },
-    { platform: "CodeChef", handle: "prathamesh", link: "https://www.codechef.com/users/bo", stat1: "2 Star", stat2: "Max Rating: 1426", icon: <Server size={32}/> },
-    { platform: "GeeksforGeeks", handle: "prathamesh", link: "https://auth.geeksforgeeks.org/user/pr", stat1: "300+ Solved", stat2: "Score: 1200", icon: <Code2 size={32}/> },
+    { platform: "LeetCode", handle: "GuravPrathamesh_79", link: "https://leetcode.com/u/GuravPrathamesh_79/", stat1: "700+ Solved", stat2: "Max Rating: 1726", icon: <Code2 size={32}/> },
+    { platform: "Codeforces", handle: "prathamesh527", link: "https://codeforces.com/profile/prathamesh527", stat1: "200+ Solved", stat2: "Max Rating: 1056 (Newbie)", icon: <Terminal size={32}/> },
+    { platform: "CodeChef", handle: "boss373", link: "https://www.codechef.com/users/boss373", stat1: "2 Star", stat2: "Max Rating: 1426", icon: <Server size={32}/> },
+    { platform: "GeeksforGeeks", handle: "prathamesh2wu2", link: "https://www.geeksforgeeks.org/profile/prathamesh2wu2", stat1: "300+ Solved", stat2: "Score: 1200", icon: <Code2 size={32}/> },
   ];
 
   return (
