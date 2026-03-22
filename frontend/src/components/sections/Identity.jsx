@@ -74,7 +74,7 @@ const Identity = () => {
               <div className="absolute -inset-6 bg-gradient-to-r from-cyan-500 to-blue-600 rounded-[4rem] opacity-20 blur-3xl" />
               <div className="relative w-[280px] sm:w-[350px] xl:w-[400px] aspect-[4/5] rounded-[3.5rem] border-2 border-white/20 bg-slate-900/60 backdrop-blur-3xl p-3 shadow-2xl overflow-hidden group-hover:border-cyan-500/50 group-focus:border-cyan-500/50 group-active:border-cyan-500/50 transition-all duration-500">
                 <img 
-                  src="https://raw.githubusercontent.com/Pratham2779/Pratham2779/main/profile_photo.png" 
+                  src="/profile_photo.jpeg" 
                   alt="Profile" 
                   className="w-full h-full object-cover rounded-[2.8rem] grayscale group-hover:grayscale-0 group-focus:grayscale-0 group-active:grayscale-0 transition-all duration-1000 opacity-90"
                 />
